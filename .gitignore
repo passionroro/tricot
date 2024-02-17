@@ -1,4 +1,4 @@
 a.out
 *.swp
-./objs
+objs
 brainfuck

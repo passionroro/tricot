@@ -34,18 +34,14 @@ static bool is_valid_char(unsigned char c) {
 }
 
 static size_t	read_from_file(const char *path) {
-	int			c;
+	int			c, statRet;
 	size_t		size = 0;
 	FILE		*file;
 	struct stat	fileStat;
 
-	
-    if (stat(path, &fileStat) < 0) {
-		exitError("");
-	}
-
-    if (!S_ISREG(fileStat.st_mode)) {
-		exitError("Path must be a file");
+    statRet = stat(path, &fileStat);
+    if (statRet || !S_ISREG(fileStat.st_mode)) {
+		exitError("Path must be a file\n");
     }
 
 	file = fopen(path, "r");
@@ -124,6 +120,9 @@ static void	run(FILE *file, size_t read_bytes) {
 			if (!*ptr) {
 				int nesting_level = 1;
 				while (nesting_level > 0) {
+					if (nesting_level > MAX_LOOP) {
+						exitError("Nesting level too high\n");
+					}
 					i++;
 					if (instructions[i] == '[') {
 						nesting_level++;
