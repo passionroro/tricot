@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <strings.h>
 #include <ctype.h>
+#include <sys/stat.h>
 
 #define MAX_PTR 1024
 #define MAX_LOOP 128
@@ -32,12 +33,22 @@ static bool is_valid_char(unsigned char c) {
 			c == '[' || c == ']' || c == ',' || c == '.';
 }
 
-static size_t	read_from_file(const char *str) {
-	int		c;
-	size_t	size = 0;
-	FILE	*file;
+static size_t	read_from_file(const char *path) {
+	int			c;
+	size_t		size = 0;
+	FILE		*file;
+	struct stat	fileStat;
+
 	
-	file = fopen(str, "r");
+    if (stat(path, &fileStat) < 0) {
+		exitError("");
+	}
+
+    if (!S_ISREG(fileStat.st_mode)) {
+		exitError("Path must be a file");
+    }
+
+	file = fopen(path, "r");
 	if (!file) {
 		exitError("");
 	}
