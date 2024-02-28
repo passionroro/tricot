@@ -1,3 +1,4 @@
+/*
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -11,7 +12,15 @@
 #define MAX_PTR 1024
 #define MAX_LOOP 128
 
-void verbose(unsigned char *ptr) {
+static void	brainfuck(const char *file_path);
+static void verbose(unsigned char *ptr);
+static void	exitError(const char *str);
+static bool is_valid_char(unsigned char c);
+static size_t	read_from_file(const char *path);
+static char	*convert_file_content(FILE *file, int read_bytes);
+static void	run(FILE *file, size_t read_bytes);
+
+static void verbose(unsigned char *ptr) {
 	for (int i = 0; i <= MAX_PTR; i++) {
 		if (ptr[i]) {
 			printf("[%p]\t[%d]\t=\t(%d)\t(%c)\n", &ptr[i], i, ptr[i], ptr[i]);
@@ -75,7 +84,7 @@ static char	*convert_file_content(FILE *file, int read_bytes) {
 	int		c, i = 0;
 	char	*str;
 
-	str  = malloc(sizeof(*str) * (read_bytes + 1));
+	str  = (char *)malloc(sizeof(*str) * (read_bytes + 1));
 	if (!str) {
 		fclose(file);
 		exitError("Fatal error\n");
@@ -100,7 +109,7 @@ static void	run(FILE *file, size_t read_bytes) {
 	int				stack_ptr = -1;
 	
 	instructions = convert_file_content(file, read_bytes);
-	ptr = calloc(MAX_PTR, sizeof(*ptr));
+	ptr = (unsigned char *)calloc(MAX_PTR, sizeof(*ptr));
 	
 	for (int i = 0; instructions[i]; i++) {
 		if (instructions[i] == '>') {
@@ -166,3 +175,4 @@ int	main(int argc, char **argv) {
 	
 	return 0;
 }
+*/
