@@ -3,7 +3,7 @@ CFLAGS := -Wall -Wextra -Werror -std=c++11
 SRC_DIR := srcs
 OBJ_DIR := objs
 TARGET := brainfuck
-SRC := $(wildcard $(SRC_DIR)/*.cpp)
+SRC := $(wildcard $(SRC_DIR)/*.cpp) main.cpp
 OBJ := $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 OPENCV_INCLUDE := -I/opt/homebrew/opt/opencv/include/opencv4
