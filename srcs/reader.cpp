@@ -1,11 +1,11 @@
-#include <opencv2/opencv.hpp>
+#include "opencv2/opencv.hpp"
 #include <iostream>
 #include <set>
 
 #define FRAME_W 640
 #define FRAME_H 480
-#define ROI_W 64
-#define ROI_H 16
+#define ROI_W 16
+#define ROI_H 4
 
 using namespace cv;
 using namespace std;
@@ -64,7 +64,7 @@ int runColorsDetector()
 			bool similarColorFound = false;
 			for (const auto &existingColor : detectedColors)
 			{
-				if (norm(color, existingColor) < 30)
+				if (norm(color, existingColor) < 150)
 				{ // threshold
 					similarColorFound = true;
 					break;

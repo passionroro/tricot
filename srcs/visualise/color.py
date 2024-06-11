@@ -17,14 +17,16 @@ def visualize_colors(rgb_values):
 # Example usage
 if __name__ == "__main__":
 	rgb_colors = [
-		[0, 0, 200],
-		[0, 100, 200],
-		[0, 200, 200],
-		[100, 0, 0],
-		[100, 0, 100],
-		[0, 100, 0],
-		[200, 100, 0],
-		[200, 200, 0],
+#		[0, 0, 200],
+#		[0, 100, 200],
+#		[0, 200, 200],
+#		[100, 0, 0],
+#		[100, 0, 100],
+#		[0, 100, 0],
+#		[200, 100, 0],
+#		[200, 200, 0],
+[255, 254, 255],
+[145, 142, 117],
 	]
 	normalized_colors = normalize_rgb(rgb_colors)
 	visualize_colors(normalized_colors)
