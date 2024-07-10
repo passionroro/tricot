@@ -4,3 +4,5 @@ objs
 brainfuck
 srcs/visualise/venv
 .vscode
+build/
+.DS_Store
