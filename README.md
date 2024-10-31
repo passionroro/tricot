@@ -21,6 +21,9 @@ sudo apt-get install libopencv-dev cmake
 ./build.sh && ./build/tricot
 ```
 
+**Options**
+- `-v`: enable verbose mode
+
 ![tricot](/assets/tricot.png)
 
 ## Brainfuck Interpreter in C

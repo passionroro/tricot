@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenCV REQUIRED)
 
-include_directories(${OpenCV_INCLUDE_DIRS} include)
+add_executable(tricot srcs/main.cpp srcs/reader.cpp srcs/verbose.cpp)
 
-add_executable(tricot srcs/main.cpp srcs/reader.cpp)
 target_link_libraries(tricot ${OpenCV_LIBS})
+
+target_include_directories(tricot PRIVATE ${OpenCV_INCLUDE_DIRS})
