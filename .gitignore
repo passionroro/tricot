@@ -5,4 +5,5 @@ brainfuck
 srcs/visualise/venv
 .vscode
 build/
+.build/
 .DS_Store
