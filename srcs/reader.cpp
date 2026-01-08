@@ -150,10 +150,14 @@ void VideoProcessor::detectTemplate(cv::Mat &frame, Template &templs) {
     cv::Point startLoc = detectedLocations["header_start"];
     cv::Point endLoc = detectedLocations["header_end"];
 
+    int offTop = 25;
+    int offBottom = 55;
+    int off = offTop + offBottom;
     int headerWidth = 120;
-    int headerHeight = endLoc.y - startLoc.y - templs["header_end"].rows;
-    int x = startLoc.x;
-    int y = startLoc.y + templs["header_start"].rows;
+    int headerHeight = endLoc.y - startLoc.y - templs["header_end"].rows - off;
+    // int x = startLoc.x;
+    int x = (FRAME_WIDTH / 2) - (headerWidth / 2);
+    int y = startLoc.y + templs["header_start"].rows + offTop;
 
     printVerbose(frame, "Found the whole header !");
 
@@ -285,6 +289,10 @@ void VideoProcessor::processHeader(cv::Mat &frame, cv::Mat &headerRoi, int x,
 
   printVerbose(frame, "Detecing the colors in the header");
 
+  separatorColorBGR = getDominantColorBGR_KMeans(headerRoi);
+  // Save as image the separator color for verbose purposes
+  saveSeparatorColor(headerRoi, width, height);
+
   for (int i = 0; i < colorsNb; ++i) {
     cv::Rect dividedHeaderRect(0, height * i, width, height);
     cv::rectangle(frame, cv::Rect(x, y + (height * i), width, height),
@@ -301,14 +309,21 @@ void VideoProcessor::processHeader(cv::Mat &frame, cv::Mat &headerRoi, int x,
         cv::Scalar(dominantColor[0], dominantColor[1], dominantColor[2]);
     const std::string name = "header_section_" + std::to_string(i);
     // Show the images
-    cv::imshow(name, comparisonMat);
-    cv::moveWindow(name, 0, i * 1.5 * height);
+    // cv::imshow(name, comparisonMat);
+    // cv::moveWindow(name, 0, i * 1.5 * height);
     // Save the image
     saveImage(name, comparisonMat, "assets/header/");
   }
 
   saveImage("header2", frame, "assets/header/");
   saveImage("header3", headerRoi, "assets/header/");
+}
+
+void VideoProcessor::saveSeparatorColor(cv::Mat &roi, int width, int height) {
+  cv::Mat frame(height, width, roi.type());
+  frame(cv::Rect(0, 0, width, height)) = cv::Scalar(
+      separatorColorBGR[0], separatorColorBGR[1], separatorColorBGR[2]);
+  saveImage("separator_color", frame, "assets/header/");
 }
 
 // Pour avoir la couleur de separation, on pourrait aussi prendre faire un
@@ -441,9 +456,6 @@ void VideoProcessor::loadAdjustments() {
 void VideoProcessor::saveCurrentAdjustments() const {
   saveValue(BRIGHTNESS_FILE, currentBrightness);
   saveValue(CONTRAST_FILE, currentContrast);
-  std::cout << "Calibration values:" << std::endl
-            << "  Brightness: " << currentBrightness << std::endl
-            << "  Contrast: " << currentContrast << std::endl;
 }
 
 void VideoProcessor::adjustFrame(cv::Mat &frame) const {

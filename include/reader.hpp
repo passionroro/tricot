@@ -60,8 +60,12 @@ private:
   void verboseMagnifyImage(const cv::Mat &img, int n = 4);
   void saveImage(const std::string &name, cv::Mat &img,
                  const std::string &path);
+  void saveSeparatorColor(cv::Mat &roi, int width, int height);
 
-  enum class AdjustmentMode { Brightness, Contrast };
+      enum class AdjustmentMode {
+        Brightness,
+        Contrast
+      };
   static constexpr const char *BRIGHTNESS_FILE =
       "assets/calibration/brightness.dat";
   static constexpr const char *CONTRAST_FILE =
